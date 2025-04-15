@@ -28,7 +28,7 @@ drowsiness_timer = 0
 #for PERCLOS
 ear_history = []
 interval_duration_perclos = 20 # measured in seconds
-threshold_perclos = 0.25 # under this value the eyes are considered closes
+threshold_perclos = 0.25 # under this value the eyes are considered closed
 update_time_perclos = time.time()
 ##############distraction
 distracted_timeout = 0
@@ -293,34 +293,34 @@ while cap.isOpened():
             l_y = point_LEIC[1]
             #checking eye angles
             # RIGHT EYE
-            r_pitch = 0
-            r_yaw = 0
+            re_pitch = 0
+            re_yaw = 0
             if r_y >= r_yc + r_b*down_gaze_fraction or r_lid_eyebrow_dist > 0.4*r_eye_height:
-                r_pitch = -1
+                re_pitch = -1
             if r_y <= r_yc - r_b:
-                r_pitch = 1
+                re_pitch = 1
             if r_x >= r_xc + r_a:
-                r_yaw = 1
+                re_yaw = 1
             if r_x <= r_xc - r_a:
-                r_yaw = -1
-            cv2.putText(image, f"Right_eye Pitch: {r_pitch:.2f} Yaw: {r_yaw:.2f}", (10, 115), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2) 
+                re_yaw = -1
+            cv2.putText(image, f"Right_eye Pitch: {re_pitch:.2f} Yaw: {re_yaw:.2f}", (10, 115), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2) 
 
 
             # LEFT EYE
-            l_pitch = 0
+            le_pitch = 0
             l_yaw = 0
             if l_y >= l_yc+ l_b*down_gaze_fraction or l_lid_eyebrow_dist > 0.4*l_eye_height:
-                l_pitch = -1
+                le_pitch = -1
             if l_y <= l_yc - l_b:
-                l_pitch = 1
+                le_pitch = 1
             if l_x >= l_xc + l_a:
                 l_yaw = 1
             if l_x <= l_xc - l_a:
                 l_yaw = -1
-            cv2.putText(image, f"Left_eye Pitch: {l_pitch:.2f} Yaw: {l_yaw:.2f}", (10, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2) 
+            cv2.putText(image, f"Left_eye Pitch: {le_pitch:.2f} Yaw: {l_yaw:.2f}", (10, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2) 
             
             eyes_distracted = 0
-            if abs(r_pitch) >= 1 or abs(l_pitch) >= 1 or abs(r_yaw) >= 1 or abs(l_yaw) >= 1:
+            if abs(re_pitch) >= 1 or abs(le_pitch) >= 1 or abs(re_yaw) >= 1 or abs(l_yaw) >= 1:
                 eyes_distracted = 1
 
             ######calculating EAR
@@ -410,10 +410,10 @@ while cap.isOpened():
             cv2.putText(image, "Left_EAR: " + str(np.round(ear_L, 2)), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
             cv2.putText(image, "Right_EAR: " + str(np.round(ear_R, 2)), (10, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
             cv2.putText(image, f'PERCLOS value: {perclos_val: .2f}' , \
-                            (10,95), cv2.FONT_HERSHEY_SIMPLEX,0.5,(250,0,250),2)
+                            (10,95), cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,90),2)
             # speed reduction (comment out for full speed)
-            cv2.putText(image, f'distraction flags: {head_distracted}_{eyes_distracted}' , \
-                            (10,180), cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,255),2)
+            cv2.putText(image, f'distraction flags: Head_{head_distracted}_Eye_{eyes_distracted}' , \
+                            (10,180), cv2.FONT_HERSHEY_SIMPLEX,0.5,(90,0,255),2)
             time.sleep(1/25) # [s]
 
         end = time.time()
@@ -442,7 +442,7 @@ while cap.isOpened():
         
         #print("FPS:", fps)
 
-        cv2.putText(image, f'FPS : {int(fps)}', (20,450), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        # cv2.putText(image, f'FPS : {int(fps)}', (20,450), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
         # 4.5 - Show the frame to the user
         cv2.imshow('Technologies for Autonomous Vehicles - Driver Monitoring Systems using AI code sample', image)       
